@@ -1,5 +1,8 @@
 <h1>All Games</h1>
 
+<button onClick="displayCreateForm(); return=false">Add New Game</button>
+<button onClick="getGames(); return=false">See All Games</button>
+
 <% if @kf == true %>
     <h2>Kid Friendly!</h2>
     <div><%= button_to "See All Games", games_path, method: "get" %></div>
