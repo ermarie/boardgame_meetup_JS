@@ -6,12 +6,11 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
-    @game.save
-    if @game.valid?
+    if @game.save
       current_user.games << @game
-      redirect_to game_path(@game)
+      render json: @game, { status: 201 }
     else
-      render :new
+      render json: { errors: @game.errors.full_messages }, status: :bad_request
     end
   end
 
