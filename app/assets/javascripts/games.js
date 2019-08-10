@@ -16,7 +16,6 @@ function getGames(){
         all_games.innerHTML += games.map(game => `<li><a href="#" data-id="${game.id}">${game.name}</a></li>`.join(""))
         all_games.innerHTML = "</ul>"
     })
-    
 }
 
 function clearCreateForm() {

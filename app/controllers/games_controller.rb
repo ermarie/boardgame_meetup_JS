@@ -8,7 +8,7 @@ class GamesController < ApplicationController
     @game = Game.new(game_params)
     if @game.save
       current_user.games << @game
-      render json: @game, { status: 201 }
+      render json: @game, status: 201
     else
       render json: { errors: @game.errors.full_messages }, status: :bad_request
     end
