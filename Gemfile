@@ -68,3 +68,4 @@ gem 'omniauth-github'
 gem 'bootstrap-sass' , ">= 3.4.1"
 gem 'dotenv-rails'
 gem 'omniauth-rails_csrf_protection'
+gem 'prettier'
