@@ -17,8 +17,9 @@ class GamesController < ApplicationController
 
   def index
     @games = Game.all
-    if @games.empty?
-      redirect_to new_game_path
+    respond_to do |format|
+      format.html
+      format.json { render json: @games }
     end
   end
 
