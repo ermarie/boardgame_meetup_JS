@@ -39,6 +39,12 @@ function displayGame(e){
 
 function createGame(){
     const game = {
-        
+        name: document.getElementById("name").value,
+        min_play_time: document.getElementById("min_play_time").value,
+        max_play_time: document.getElementById("max_play_time").value,
+        min_num_players: document.getElementById("min_num_players").value,
+        max_num_players: document.getElementById("max_num_players").value,
+        min_age: document.getElementById("min_age").value,
+        max_age: document.getElementById("max_age").value
     }
 }
