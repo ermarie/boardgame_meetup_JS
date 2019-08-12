@@ -47,4 +47,16 @@ function createGame(){
         min_age: document.getElementById("min_age").value,
         max_age: document.getElementById("max_age").value
     }
+
+    fetch(BASE_URL + `/games`, {
+        method: `POST`,
+        body: JSON.stringify({ game })
+        headers: {
+            `Content-Type`: `application/json`,
+            `Accept`: `application/json`
+        }
+    }).then(response => response.json())
+    .then(game => {
+        document.querySelector(`#all_games ul`).innerHTML += ``
+    })
 }
