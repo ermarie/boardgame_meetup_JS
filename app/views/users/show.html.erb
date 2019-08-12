@@ -20,11 +20,9 @@
 <% end %>
 </br>
 <h4>Games:</h4>
-<% if !@games.empty? %>
-    <% @games.each do |game| %>
-        <div><%= link_to game.name, game_path(game) %></div>
-    <% end %>
-<% elsif @user == current_user %>
-    <div><%= button_to "Add a New Game", new_game_path, method: "get" %></div>
-<% end %>
-    <div><%= button_to "See All Games", games_path, method: "get" %></div>
+
+<button onClick="displayCreateForm(); return false;">Add New Game</button>
+<button onClick="getGames()">See All Games</button>
+
+<div id="games-form"></div>
+<div id="all-games"></div>

@@ -14,8 +14,7 @@ function getGames(){
     .then(games => {
         let all_games = document.getElementById("all-games")
         all_games.innerHTML = "<ul>"
-        all_games.innerHTML += games.map(game => {
-            return `<li><a href="#" data-id="${game.id}">${game.name}</a></li>`}).join("")
+        all_games.innerHTML += games.map(game => { `<li><a href="#" data-id="${game.id}">${game.name}</a></li>` }).join("")
         all_games.innerHTML = "</ul>"
     })
 }
@@ -57,7 +56,7 @@ function createGame(){
         }
     }).then(response => response.json())
     .then(game => {
-        if (game.errors.length === 0) {
+        if (game !== undefined) {
             let gamesDiv = document.querySelector("#all-games")
             gamesDiv.innerHTML += '<ul></ul>'
             let gamesUl = document.querySelector("#all-games ul")
