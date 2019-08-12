@@ -1,0 +1,27 @@
+
+<h1><%= @event.name %></h1>
+
+    <%= @event.date_time.to_formatted_s(:long_ordinal) %></br>
+    </br>
+    <% if current_user.events.include?(@event) %>
+    <div>
+        <%= button_to "Edit Event", edit_event_path(@event), method: "get" %>
+        <%= button_to "Leave Event",  event_leave_path(@event), method: "get" %>
+        <%= button_to "Delete Event", event_path(@event), method: "delete" %>
+    </div>
+    </br>
+    <h3>Attending:</h3>
+    <% @event.users.each do |user| %>
+        <div><%= link_to user.name, user_path(user) %></div>
+    <% end %>
+    <h3>Available Games:</h3>
+    <% @event.users.each do |user| %>
+        <% user.games.each do |game| %>
+            <div><%= link_to game.name, game_path(game) %></div>
+        <% end %>
+    <% end %>
+<% else %>
+    <div>
+        <%= button_to "Join Event", event_join_path(@event), method: "get" %>
+    </div>
+<% end %>
