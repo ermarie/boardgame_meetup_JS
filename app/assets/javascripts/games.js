@@ -7,7 +7,7 @@ function displayCreateForm() {
 }
 
 function getGames(){
-    clearCreateForm()
+    removeCreateForm()
     
     fetch(BASE_URL + "/games.json")
     .then(response => response.json())
@@ -20,14 +20,14 @@ function getGames(){
     })
 }
 
-function clearCreateForm() {
+function removeCreateForm() {
     let gameFormDiv = document.getElementById("games-form")
     gameFormDiv.innerHTML = ''
 }
 
 function displayGame(e){
     e.preventDefault()
-    clearCreateForm()
+    removeCreateForm()
     let id = this.dataset.id
     fetch(BASE_URL + `/games/${id}.json`)
     .then(response => response.json())
@@ -48,7 +48,7 @@ function createGame(){
         max_age: document.getElementById("max_age").value
     }
 
-    fetch(BASE_URL + "/games", {
+    fetch(BASE_URL + "/games.json", {
         method: "POST",
         body: JSON.stringify({ game }),
         headers: {
@@ -57,8 +57,18 @@ function createGame(){
         }
     }).then(response => response.json())
     .then(game => {
-        let gamesDiv = document.querySelector("#all-games")
-        gamesDiv.innerHTML += `<li>${game.name}</li>`
-        clearCreateForm()
+        if (game.errors.length === 0) {
+            let gamesDiv = document.querySelector("#all-games")
+            gamesDiv.innerHTML += '<ul></ul>'
+            let gamesUl = document.querySelector("#all-games ul")
+            gamesUl.innerHTML += `<li>${game.name}</li>`
+            removeCreateForm()
+        } else {
+            let gameFormDiv = document.getElementById("games-form")
+            gameFormDiv.innerHTML += "Cannot create game: " 
+             game.errors.forEach(function(el) { 
+                gameFormDiv.innerHTML += `${el}. ` 
+            })
+        }
     })
 }
