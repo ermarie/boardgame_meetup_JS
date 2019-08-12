@@ -36,3 +36,9 @@ function displayGame(e){
         all_games.innerHTML += `<h3>${game.name}</h3>`
     })
 }
+
+function createGame(){
+    const game = {
+        
+    }
+}
