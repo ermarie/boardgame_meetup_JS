@@ -1,38 +1,26 @@
 class GamesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  def new
-    @game = Game.new
-  end
-
   def create
-    @game = Game.new(game_params)
-    if @game.save
-      current_user.games << @game
-      render json: @game, status: 201
+    game = Game.new(game_params)
+    if game.save
+      current_user.games << game
+      render json: game, status: 201
     else
-      render json: { errors: @game.errors.full_messages }, status: :bad_request
+      render json: { errors: game.errors.full_messages }, status: :bad_request
     end
   end
 
   def index
-    @games = Game.all
-    respond_to do |format|
-      format.html
-      format.json { render json: @games }
+    games = Game.all
+    render json: games
     end
   end
 
   def show
-    @game = Game.find_by(id: params[:id])
-    render json: @game.to_json(only: [:id, :name, :min_play_time, :max_play_time, :min_num_players, :max_num_players, :min_age, :max_age],
+    game = Game.find_by(id: params[:id])
+    render json: game.to_json(only: [:id, :name, :min_play_time, :max_play_time, :min_num_players, :max_num_players, :min_age, :max_age],
                                 include: [plays: { only: [:num_plays]}])                     
-  end
-
-  def kid_friendly
-    @games = Game.kid_friendly
-    @kf = true
-    render :index
   end
 
   def edit

@@ -9,7 +9,7 @@ function displayCreateForm() {
 function getGames(){
     removeCreateForm()
     
-    fetch(BASE_URL + "/games.json")
+    fetch(BASE_URL + "/games")
     .then(response => response.json())
     .then(games => {
         let all_games = document.getElementById("all-games")
