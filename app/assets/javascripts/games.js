@@ -6,8 +6,10 @@ function displayCreateForm() {
     gameFormDiv.innerHTML = html
 }
 
-function getGames(){
+function getGames(e){
+    e.preventDefault()
     removeCreateForm()
+    let id = this.dataset.id
     
     fetch(BASE_URL + "/games")
     .then(response => response.json())
@@ -16,8 +18,10 @@ function getGames(){
         all_games.innerHTML += "<ul id='games-ul'></ul>"
         let gamesUl = document.getElementById("games-ul")
         gamesUl.innerHTML += games.map(game => { 
-            return `<li><a href="#" id="${game.id}" onClick="displayGame(${game.id})">${game.name}</a></li>` }).join("")
+            return `<li><a href="#" id="${game.id}" data-id="${game.id}">${game.name}</a></li>` }).join("")
         })
+
+        addClick()
 }
 
 function removeCreateForm() {
@@ -75,12 +79,12 @@ function createGame(){
     })
 }
 
-// function addClick(){
-//     let games = document.querySelectorAll('li a')
-//     for (let i = 0; i < games.length; i++){
-//         games[i].addEventListener('click', displayGame)
-//     }
-// }
+function addClick(){
+    let games = document.querySelectorAll('li a')
+    for (let i = 0; i < games.length; i++){
+        games[i].addEventListener('click', displayGame)
+    }
+}
 
 // function getUserGames() {
 
@@ -103,6 +107,6 @@ class Gm{
     }
 }
 
-// window.addEventListener('load', function(){
-//     addClick()
-// })
+window.addEventListener('load', function(){
+    addClick()
+})
