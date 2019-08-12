@@ -1,4 +1,6 @@
 
+<script type="text/javascript" src="games.js"></script>
+
 <h1><%= @user.name %></h1>
 </br>
 <% if @user == current_user %>
@@ -19,19 +21,21 @@
     </div>
 <% end %>
 </br>
-<h4>Games:</h4>
-
-<button onClick="displayCreateForm(); return false;">Add New Game</button>
-<button onClick="getUserGames()">See Your Games</button>
-<button onClick="getGames()">See All Games</button>
-
-<div id="games-form"></div>
-<div id="all-games"></div>
 
 <h4>Your Games:</h4>
 
 <% if !@games.empty? %>
+    <ul>
     <% @games.each do |game| %>
-        <div><%= link_to game.name, game_path(game) %></div>
+        <li><a href="#" data-id="${game.id}" onClick="displayGame(${game.id})"><%= game.name %></a></li>
     <% end %>
+    </ul>
 <% end %>
+
+<button onClick="displayCreateForm()">Add New Game</button>
+<button onClick="getGames()">See All Games</button>
+
+<div id="games-form"></div>
+<div id="all-games"></div>
+<%binding.pry%>
+

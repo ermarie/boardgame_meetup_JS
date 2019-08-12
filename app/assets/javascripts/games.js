@@ -16,7 +16,7 @@ function getGames(){
         all_games.innerHTML += "<ul id='games-ul'></ul>"
         let gamesUl = document.getElementById("games-ul")
         gamesUl.innerHTML += games.map(game => { 
-            return `<li><a href="#" data-id="${game.id}">${game.name}</a></li>` }).join("")
+            return `<li><a href="#" id="${game.id}" onClick="displayGame(${game.id})">${game.name}</a></li>` }).join("")
         })
 }
 
@@ -25,15 +25,16 @@ function removeCreateForm() {
     gameFormDiv.innerHTML = ''
 }
 
-function displayGame(e){
-    e.preventDefault()
+function displayGame(id){
     removeCreateForm()
-    let id = this.dataset.id
-    fetch(BASE_URL + `/games/${id}.json`)
+    fetch(BASE_URL + `/games/${id}`)
     .then(response => response.json())
     .then(game => {
         let all_games = document.getElementById("all-games")
-        all_games.innerHTML += `<h3>${game.name}</h3>`
+        all_games.innerHTML += `<h3>${game.name}</h3><p>Play Time: ${game.min_play_time} - ${game.max_play_time}</p><p>Number pf Players: ${game.min_num_players} - ${game.max_num_players}</p><p>Ages: ${game.min_age} - ${game.max_age}</p>`
+        // let gameLi = document.getElementById(`${id}`)
+        // gameLi.innerHTML += `<h3>${game.name}</h3><p>Play Time: ${game.min_play_time} - ${game.max_play_time}</p><p>Number pf Players: ${game.min_num_players} - ${game.max_num_players}</p><p>Ages: ${game.min_age} - ${game.max_age}</p>`
+    
     })
 }
 
@@ -48,7 +49,7 @@ function createGame(){
         max_age: document.getElementById("max_age").value
     }
 
-    fetch(BASE_URL + "/games.json", {
+    fetch(BASE_URL + "/games", {
         method: "POST",
         body: JSON.stringify({ game }),
         headers: {
@@ -58,10 +59,11 @@ function createGame(){
     }).then(response => response.json())
     .then(game => {
         if (game !== undefined) {
+            let gm = new Gm(game)
             let gamesDiv = document.querySelector("#all-games")
             gamesDiv.innerHTML += '<ul></ul>'
             let gamesUl = document.querySelector("#all-games ul")
-            gamesUl.innerHTML += `<li>${game.name}</li>`
+            gamesUl.innerHTML += gm.renderGame()
             removeCreateForm()
         } else {
             let gameFormDiv = document.getElementById("games-form")
@@ -73,6 +75,34 @@ function createGame(){
     })
 }
 
-function getUserGames() {
-    
+// function addClick(){
+//     let games = document.querySelectorAll('li a')
+//     for (let i = 0; i < games.length; i++){
+//         games[i].addEventListener('click', displayGame)
+//     }
+// }
+
+// function getUserGames() {
+
+// }
+
+class Gm{
+    constructor(game){
+        this.id = game.id
+        this.name = game.name
+        this.min_play_time = game.min_play_time
+        this.max_play_time = game.max_play_time
+        this.min_num_players = game.min_num_players
+        this.max_num_players = game.max_num_players
+        this.id = game.min_age
+        this.max_age = game.max_age
+    }
+
+    renderGame(){
+        return `<li><a href="#" data-id="${this.id}" onClick="displayGame(${this.id})">${this.name}</a></li>`
+    }
 }
+
+// window.addEventListener('load', function(){
+//     addClick()
+// })
