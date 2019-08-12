@@ -13,10 +13,11 @@ function getGames(){
     .then(response => response.json())
     .then(games => {
         let all_games = document.getElementById("all-games")
-        all_games.innerHTML = "<ul>"
-        all_games.innerHTML += games.map(game => { `<li><a href="#" data-id="${game.id}">${game.name}</a></li>` }).join("")
-        all_games.innerHTML = "</ul>"
-    })
+        all_games.innerHTML += "<ul id='games-ul'></ul>"
+        let gamesUl = document.getElementById("games-ul")
+        gamesUl.innerHTML += games.map(game => { 
+            return `<li><a href="#" data-id="${game.id}">${game.name}</a></li>` }).join("")
+        })
 }
 
 function removeCreateForm() {
@@ -70,4 +71,8 @@ function createGame(){
             })
         }
     })
+}
+
+function getUserGames() {
+    
 }
