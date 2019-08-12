@@ -57,7 +57,8 @@ function createGame(){
         }
     }).then(response => response.json())
     .then(game => {
-        document.querySelector(`#all_games ul`).innerHTML += `<li>${game.name}</li>`
+        let gamesDiv = document.querySelector("#all-games")
+        gamesDiv.innerHTML += `<li>${game.name}</li>`
         clearCreateForm()
     })
 }
