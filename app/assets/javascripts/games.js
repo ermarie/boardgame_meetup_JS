@@ -6,22 +6,19 @@ function displayCreateForm() {
     gameFormDiv.innerHTML = html
 }
 
-function getGames(e){
-    e.preventDefault()
+function getGames(){
     removeCreateForm()
-    let id = this.dataset.id
-    
+
     fetch(BASE_URL + "/games")
     .then(response => response.json())
     .then(games => {
-        let all_games = document.getElementById("all-games")
-        all_games.innerHTML += "<ul id='games-ul'></ul>"
         let gamesUl = document.getElementById("games-ul")
         gamesUl.innerHTML += games.map(game => { 
             return `<li><a href="#" id="${game.id}" data-id="${game.id}">${game.name}</a></li>` }).join("")
-        })
+            addClick()
+    })
 
-        addClick()
+        
 }
 
 function removeCreateForm() {
@@ -29,8 +26,11 @@ function removeCreateForm() {
     gameFormDiv.innerHTML = ''
 }
 
-function displayGame(id){
+function displayGame(e){
+    e.preventDefault()
     removeCreateForm()
+    let id = this.dataset.id
+
     fetch(BASE_URL + `/games/${id}`)
     .then(response => response.json())
     .then(game => {
@@ -107,6 +107,6 @@ class Gm{
     }
 }
 
-window.addEventListener('load', function(){
-    addClick()
-})
+// window.addEventListener('load', function(){
+//     addClick()
+// })

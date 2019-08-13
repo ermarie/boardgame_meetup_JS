@@ -6,8 +6,7 @@
     <% if current_user.events.include?(@event) %>
     <div>
         <%= button_to "Edit Event", edit_event_path(@event), method: "get" %>
-        <%= button_to "Leave Event",  event_leave_path(@event), method: "get" %>
-        <%= button_to "Delete Event", event_path(@event), method: "delete" %>
+        <%= button_to "Leave Event", event_path(@event), method: "delete" %>
     </div>
     </br>
     <h3>Attending:</h3>

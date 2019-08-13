@@ -2,9 +2,11 @@ class GamesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
+    binding.pry
     game = Game.new(game_params)
     if game.save
       current_user.games << game
+      play = Play.new(game_id: game.id, user_id: current_user.id)
       render json: game, status: 201
     else
       render json: { errors: game.errors.full_messages }, status: :bad_request
@@ -45,6 +47,7 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:name, :min_play_time, :max_play_time, :min_num_players, :max_num_players, :min_age, :max_age)
+    params.require(:game).permit(:name, :min_play_time, :max_play_time, :min_num_players, :max_num_players, :min_age, :max_age,
+    plays_attributes: [:num_plays])
   end
 end
