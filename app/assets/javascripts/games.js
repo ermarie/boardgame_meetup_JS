@@ -16,9 +16,7 @@ function getGames(){
         gamesUl.innerHTML += games.map(game => { 
             return `<li><a href="#" data-id="${game.id}">${game.name}</a><p id="${game.id}"></p></li>` }).join("")
         addGamesClick()
-    })
-
-        
+    })        
 }
 
 function removeCreateForm() {
@@ -47,9 +45,9 @@ function displayGame(e){
     fetch(BASE_URL + `/games/${id}`)
     .then(response => response.json())
     .then(game => {
-        let all_games = document.getElementById("all-games")
+        let gameLink = document.getElementById(`${id}`)
         let gm = new Gm(game)
-        all_games.innerHTML += gm.renderGame()  
+        gameLink.innerHTML += gm.renderGame()  
     })
 }
 
