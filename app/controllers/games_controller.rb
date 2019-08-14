@@ -18,8 +18,7 @@ class GamesController < ApplicationController
 
   def show
     game = Game.find_by(id: params[:id])
-    render json: game.to_json(only: [:id, :name, :min_play_time, :max_play_time, :min_num_players, :max_num_players, :min_age, :max_age],
-                                include: [plays: { only: [:num_plays]}])                     
+    render json: game                    
   end
 
   def edit

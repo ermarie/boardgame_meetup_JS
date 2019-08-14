@@ -1,6 +1,4 @@
 
-<script type="text/javascript" src="games.js"></script>
-
 <h1><%= @user.name %></h1>
 </br>
 <% if @user == current_user %>
@@ -24,10 +22,12 @@
 
 <h4>Your Games:</h4>
 
-<% if !@games.empty? %>
+<% if @games.empty? %>
+    <p>You do not own any games.</p>
+<% else %>
     <ul>
     <% @games.each do |game| %>
-        <li><a href="#" data-id="<%= game.id %>" data-user-id="<%= current_user.id %>"><%= game.name %></a></li>
+        <li><a href="#" data-id="<%= game.id %>" data-user="<%= current_user.id %>"><%= game.name %></a></li>
     <% end %>
     </ul>
 <% end %>

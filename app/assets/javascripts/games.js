@@ -15,7 +15,7 @@ function getGames(){
         let gamesUl = document.getElementById("games-ul")
         gamesUl.innerHTML += games.map(game => { 
             return `<li><a href="#" id="${game.id}" data-id="${game.id}">${game.name}</a></li>` }).join("")
-            addClick()
+        addGamesClick()
     })
 
         
@@ -24,6 +24,25 @@ function getGames(){
 function removeCreateForm() {
     let gameFormDiv = document.getElementById("games-form")
     gameFormDiv.innerHTML = ''
+}
+
+function displayUserGame(e){
+    e.preventDefault()
+    removeCreateForm()
+    let id = this.dataset.id
+    let userID = this.dataset.user
+
+    fetch(BASE_URL + `/games/${id}/plays/${userID}`)
+    .then(response => response.json())
+    .then(play => {
+        let user_game = document.getElementById("all-games")
+        // let gm = new Gm(game)
+        // console.log(game)
+        // all_games.innerHTML += gm.renderGame()
+        // let gameLi = document.getElementById(`${id}`)
+        // gameLi.append += `<h3>${game.name}</h3><p>Play Time: ${game.min_play_time} - ${game.max_play_time}</p><p>Number pf Players: ${game.min_num_players} - ${game.max_num_players}</p><p>Ages: ${game.min_age} - ${game.max_age}</p>`
+    
+    })
 }
 
 function displayGame(e){
@@ -35,7 +54,8 @@ function displayGame(e){
     .then(response => response.json())
     .then(game => {
         let all_games = document.getElementById("all-games")
-        all_games.innerHTML += `<h3>${game.name}</h3><p>Play Time: ${game.min_play_time} - ${game.max_play_time}</p><p>Number pf Players: ${game.min_num_players} - ${game.max_num_players}</p><p>Ages: ${game.min_age} - ${game.max_age}</p>`
+        let gm = new Gm(game)
+        all_games.innerHTML += gm.renderGame()
         // let gameLi = document.getElementById(`${id}`)
         // gameLi.append += `<h3>${game.name}</h3><p>Play Time: ${game.min_play_time} - ${game.max_play_time}</p><p>Number pf Players: ${game.min_num_players} - ${game.max_num_players}</p><p>Ages: ${game.min_age} - ${game.max_age}</p>`
     
@@ -79,16 +99,20 @@ function createGame(){
     })
 }
 
-function addClick(){
+function addGamesClick(){
     let games = document.querySelectorAll('li a')
     for (let i = 0; i < games.length; i++){
         games[i].addEventListener('click', displayGame)
     }
 }
 
-// function getUserGames() {
+function addUserGamesClick(){
+    let games = document.querySelectorAll('li a')
+    for (let i = 0; i < games.length; i++){
+        games[i].addEventListener('click', displayUserGame)
+    }
+}
 
-// }
 
 class Gm{
     constructor(game){
@@ -98,15 +122,15 @@ class Gm{
         this.max_play_time = game.max_play_time
         this.min_num_players = game.min_num_players
         this.max_num_players = game.max_num_players
-        this.id = game.min_age
+        this.min_age = game.min_age
         this.max_age = game.max_age
     }
 
     renderGame(){
-        return `<li><a href="#" data-id="${this.id}" onClick="displayGame(${this.id})">${this.name}</a></li>`
+        return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p>`
     }
 }
 
 window.addEventListener('load', function(){
-    addClick()
+    addUserGamesClick()
 })
