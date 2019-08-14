@@ -24,9 +24,17 @@ function removeCreateForm() {
     gameFormDiv.innerHTML = ''
 }
 
+function removeInfo(){
+    let p = document.querySelectorAll('p')
+    for (let i = 0; i < p.length; i++){
+        p[i].innerHTML = ""
+    }
+}
+
 function displayUserGame(e){
     e.preventDefault()
     removeCreateForm()
+    removeInfo()
     let id = this.dataset.id
     let userID = this.dataset.user
 
@@ -40,6 +48,7 @@ function displayUserGame(e){
 function displayGame(e){
     e.preventDefault()
     removeCreateForm()
+    removeInfo()
     let id = this.dataset.id
 
     fetch(BASE_URL + `/games/${id}`)
