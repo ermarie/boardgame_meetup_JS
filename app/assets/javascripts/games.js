@@ -97,7 +97,10 @@ function createGame(){
 }
 
 function addPlay(e){
-
+    e.preventDefault()
+    removeCreateForm()
+    removeInfo()
+    let id = this.dataset.id
 }
 
 function addGamesClick(){
