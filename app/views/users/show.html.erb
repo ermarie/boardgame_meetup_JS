@@ -27,7 +27,7 @@
 <% if !@games.empty? %>
     <ul>
     <% @games.each do |game| %>
-        <li><a href="#" data-id="${game.id}" onClick="displayGame(${game.id})"><%= game.name %></a></li>
+        <li><a href="#" data-id="<%= game.id %>" data-user-id="<%= current_user.id %>"><%= game.name %></a></li>
     <% end %>
     </ul>
 <% end %>
@@ -37,5 +37,6 @@
 
 <div id="games-form"></div>
 <div id="all-games"><ul id='games-ul'></ul></div>
+
 
 

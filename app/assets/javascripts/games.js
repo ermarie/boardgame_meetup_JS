@@ -1,8 +1,8 @@
 const BASE_URL = "http://localhost:3000"
 
-function displayCreateForm() {
+function displayCreateForm(user_id) {
     let gameFormDiv = document.getElementById("games-form")
-    let html = '<form onsubmit="createGame(); return false"><label>Name</label><input type="text" id="name"><br><label>Min play time</label><input placeholder="in minutes" type="text" id="min_play_time"><label>Max play time</label><input placeholder="in minutes" type="text" id="max_play_time"><br><label>Min # of players</label><input type="text" id="min_num_players"><label>Max # of players</label><input type="text" id="max_num_players"><br><label>Min age</label><input type="text" id="min_age"><label>Max age</label><input placeholder="enter 100 if no max" type="text" id="max_age"><br><input type="submit" value="Create Game"></form>'
+    let html = `<form onsubmit="createGame(); return false"><label>Name</label><input type="text" id="name"><br><label>Min play time</label><input placeholder="in minutes" type="text" id="min_play_time"><label>Max play time</label><input placeholder="in minutes" type="text" id="max_play_time"><br><label>Min # of players</label><input type="text" id="min_num_players"><label>Max # of players</label><input type="text" id="max_num_players"><br><label>Min age</label><input type="text" id="min_age"><label>Max age</label><input placeholder="enter 100 if no max" type="text" id="max_age"><input type="hidden" id="user_id" value=${user_id}><br><input type="submit" value="Create Game"></form>`
     gameFormDiv.innerHTML = html
 }
 
@@ -37,7 +37,7 @@ function displayGame(e){
         let all_games = document.getElementById("all-games")
         all_games.innerHTML += `<h3>${game.name}</h3><p>Play Time: ${game.min_play_time} - ${game.max_play_time}</p><p>Number pf Players: ${game.min_num_players} - ${game.max_num_players}</p><p>Ages: ${game.min_age} - ${game.max_age}</p>`
         // let gameLi = document.getElementById(`${id}`)
-        // gameLi.innerHTML += `<h3>${game.name}</h3><p>Play Time: ${game.min_play_time} - ${game.max_play_time}</p><p>Number pf Players: ${game.min_num_players} - ${game.max_num_players}</p><p>Ages: ${game.min_age} - ${game.max_age}</p>`
+        // gameLi.append += `<h3>${game.name}</h3><p>Play Time: ${game.min_play_time} - ${game.max_play_time}</p><p>Number pf Players: ${game.min_num_players} - ${game.max_num_players}</p><p>Ages: ${game.min_age} - ${game.max_age}</p>`
     
     })
 }
@@ -107,6 +107,6 @@ class Gm{
     }
 }
 
-// window.addEventListener('load', function(){
-//     addClick()
-// })
+window.addEventListener('load', function(){
+    addClick()
+})
