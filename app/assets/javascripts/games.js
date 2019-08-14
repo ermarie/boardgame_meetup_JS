@@ -14,7 +14,7 @@ function getGames(){
     .then(games => {
         let gamesUl = document.getElementById("games-ul")
         gamesUl.innerHTML += games.map(game => { 
-            return `<li><a href="#" data-id="${game.id}">${game.name}</a><p id="${game.id}"></p></li>` }).join("")
+            return `<li><a href="#" data-id="${game.id}">${game.name}</a><div id="${game.id}" class="info"></div></li>` }).join("")
         addGamesClick()
     })        
 }
@@ -25,9 +25,9 @@ function removeCreateForm() {
 }
 
 function removeInfo(){
-    let p = document.querySelectorAll('p')
-    for (let i = 0; i < p.length; i++){
-        p[i].innerHTML = ""
+    let info = document.querySelectorAll('.info')
+    for (let i = 0; i < info.length; i++){
+        info[i].innerHTML = ""
     }
 }
 
@@ -41,7 +41,7 @@ function displayUserGame(e){
     fetch(BASE_URL + `/games/${id}/plays/${userID}`)
     .then(response => response.json())
     .then(play => {
-        $(`#game${id}`).append(`<p>Number of Plays: ${play.num_plays}</p>`)
+        $(`#game${id}`).append(`<div class="info"><h5>Number of Plays: ${play.num_plays}</h5></div>`)
     })
 }
 
@@ -82,11 +82,10 @@ function createGame(){
     .then(game => {
         if (game !== undefined) {
             let gm = new Gm(game)
-            let gamesDiv = document.querySelector("#all-games")
-            gamesDiv.innerHTML += '<ul></ul>'
             let gamesUl = document.querySelector("#all-games ul")
             gamesUl.innerHTML += gm.renderGame()
             removeCreateForm()
+            removeInfo()
         } else {
             let gameFormDiv = document.getElementById("games-form")
             gameFormDiv.innerHTML += "Cannot create game: " 

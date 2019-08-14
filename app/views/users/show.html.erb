@@ -27,7 +27,7 @@
 <% else %>
     <ul>
     <% @games.each do |game| %>
-        <li><a href="#" data-id="<%= game.id %>" data-user="<%= current_user.id %>"><%= game.name %></a><p id="game<%= game.id %>"></p></li>
+        <li><a href="#" data-id="<%= game.id %>" data-user="<%= current_user.id %>"><%= game.name %></a><div id="game<%= game.id %>" class="info"></div></li>
     <% end %>
     </ul>
 <% end %>
