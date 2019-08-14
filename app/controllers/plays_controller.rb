@@ -1,7 +1,6 @@
 class PlaysController < ApplicationController
 
   def show
-    binding.pry
     play = current_user.plays.find_by(game_id: params[:game_id])
     render json: play
   end

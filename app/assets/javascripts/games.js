@@ -35,10 +35,7 @@ function displayUserGame(e){
     fetch(BASE_URL + `/games/${id}/plays/${userID}`)
     .then(response => response.json())
     .then(play => {
-        let user_game = document.getElementById("all-games")
-        // let gm = new Gm(game)
-        // console.log(game)
-        // all_games.innerHTML += gm.renderGame()
+        $(`#game${id}`).append(`<p>Number of Plays: ${play.num_plays}</p>`)
         // let gameLi = document.getElementById(`${id}`)
         // gameLi.append += `<h3>${game.name}</h3><p>Play Time: ${game.min_play_time} - ${game.max_play_time}</p><p>Number pf Players: ${game.min_num_players} - ${game.max_num_players}</p><p>Ages: ${game.min_age} - ${game.max_age}</p>`
     
