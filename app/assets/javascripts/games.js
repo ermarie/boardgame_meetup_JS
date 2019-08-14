@@ -14,7 +14,7 @@ function getGames(){
     .then(games => {
         let gamesUl = document.getElementById("games-ul")
         gamesUl.innerHTML += games.map(game => { 
-            return `<li><a href="#" id="${game.id}" data-id="${game.id}">${game.name}</a></li>` }).join("")
+            return `<li><a href="#" data-id="${game.id}">${game.name}</a><p id="${game.id}"></p></li>` }).join("")
         addGamesClick()
     })
 
@@ -36,9 +36,6 @@ function displayUserGame(e){
     .then(response => response.json())
     .then(play => {
         $(`#game${id}`).append(`<p>Number of Plays: ${play.num_plays}</p>`)
-        // let gameLi = document.getElementById(`${id}`)
-        // gameLi.append += `<h3>${game.name}</h3><p>Play Time: ${game.min_play_time} - ${game.max_play_time}</p><p>Number pf Players: ${game.min_num_players} - ${game.max_num_players}</p><p>Ages: ${game.min_age} - ${game.max_age}</p>`
-    
     })
 }
 
@@ -52,10 +49,7 @@ function displayGame(e){
     .then(game => {
         let all_games = document.getElementById("all-games")
         let gm = new Gm(game)
-        all_games.innerHTML += gm.renderGame()
-        // let gameLi = document.getElementById(`${id}`)
-        // gameLi.append += `<h3>${game.name}</h3><p>Play Time: ${game.min_play_time} - ${game.max_play_time}</p><p>Number pf Players: ${game.min_num_players} - ${game.max_num_players}</p><p>Ages: ${game.min_age} - ${game.max_age}</p>`
-    
+        all_games.innerHTML += gm.renderGame()  
     })
 }
 
