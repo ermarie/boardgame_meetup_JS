@@ -25,10 +25,8 @@
 <% if @games.empty? %>
     <p>You do not own any games.</p>
 <% else %>
-    <ul>
-    <% @games.each do |game| %>
-        <li><a href="#" data-id="<%= game.id %>" data-user="<%= current_user.id %>"><%= game.name %></a><div id="game<%= game.id %>" class="info"></div></li>
-    <% end %>
+    <ul id="user-games">
+    <button onClick="getUserGames(<%= current_user.id%>)">View Your Games</button>
     </ul>
 <% end %>
 

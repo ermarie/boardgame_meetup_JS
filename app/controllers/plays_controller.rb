@@ -1,7 +1,9 @@
 class PlaysController < ApplicationController
 
   def show
-    play = current_user.plays.find_by(game_id: params[:game_id])
+    # play = current_user.plays.find_by(game_id: params[:game_id])
+    binding.pry
+    play = current_user.games.find_by(game_id: params[:game_id]).plays
     render json: play
   end
 
@@ -13,7 +15,7 @@ class PlaysController < ApplicationController
     num = num + 1
     play.update(num_plays: num)
     play.save
-    redirect_to game_path(@game)
+    render json: play
   end
 
 end
