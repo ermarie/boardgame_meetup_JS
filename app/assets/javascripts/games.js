@@ -41,7 +41,7 @@ function displayUserGame(e){
     fetch(BASE_URL + `/games/${id}/plays/${userID}`)
     .then(response => response.json())
     .then(play => {
-        $(`#game${id}`).append(`<div class="info"><h5>Number of Plays: ${play.num_plays}</h5></div>`)
+        $(`#game${id}`).append(`<div class="info"><h5>Number of Plays: ${play.num_plays}</h5><button data-id='${play.id}' onClick="addPlay()"></button></div>`)
     })
 }
 
@@ -94,6 +94,10 @@ function createGame(){
             })
         }
     })
+}
+
+function addPlay(e){
+
 }
 
 function addGamesClick(){
