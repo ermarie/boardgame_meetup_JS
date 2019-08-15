@@ -59,7 +59,7 @@ function removeAllGames(){
 }
 
 function removeUserGames(){
-    let gamesDiv = document.getElementById("all-games")
+    let gamesDiv = document.getElementById("games-ul")
     if (gamesDiv !== null) {
         gamesDiv.innerHTML = ''
         }
