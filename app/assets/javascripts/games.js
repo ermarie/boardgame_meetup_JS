@@ -30,7 +30,7 @@ function getUserGames(userID){
     .then(user => {
         let userGamesUl = document.getElementById("user-games")
         userGamesUl.innerHTML += user.games.map(game => { 
-             return `<li><a href="#" data-userid="${user.id}" data-gameid="${game.id}" class="user-games">${game.name}</a><div id="${game.id}" class="info"></div></li>` }).join("")
+             return `<li><a href="#" data-userid="${user.id}" data-gameid="${game.id}" class="user-games">${game.name}</a><div id="user--game${game.id}" class="info"></div></li>` }).join("")
         addUserGamesClick()
     })   
 }
@@ -85,7 +85,7 @@ function displayUserGame(e){
         for (let i = 0; i < game.plays.length; i++){
             if (game.plays[i].user_id == userID){
                 let play = game.plays[i]
-                let userGamesLink = document.getElementById(`${gameID}`)
+                let userGamesLink = document.getElementById(`user-game${gameID}`)
                 userGamesLink.innerHTML += `<div class="info"><h5>Number of Plays: ${play.num_plays}</h5><button onClick="addPlay(${gameID}, ${play.id}, ${play.num_plays})">Add Game Play</button></div>`
                 let stop
             }
@@ -149,14 +149,17 @@ function addPlay(gameID, playID, numPlays){
     removeCreateForm()
     removeInfo()
     numPlays++
+    var token = Rails.csrfToken()
 
     fetch(BASE_URL + `/games/${gameID}/plays/${playID}`, {
-        method: "PUT",
+        method: "PATCH",
         body: JSON.stringify({ num_plays: numPlays }),
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
+            "Accept": "application/json",
+            "X-CSRF-TOKEN": token
+        }, 
+        credentials: "include"
     // }).then(response => response.json())
     // .then(game => {
     //     $(`#games${gameID}`).innerHTML = ''
