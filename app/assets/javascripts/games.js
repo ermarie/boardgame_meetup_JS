@@ -35,9 +35,22 @@ function getUserGames(userID){
     })   
 }
 
+function getOtherUserGames(userID) {
+    fetch(BASE_URL + `/users/${userID}.json`)
+    .then(response => response.json())
+    .then(user => {
+        let userGamesUl = document.getElementById("user-games")
+        userGamesUl.innerHTML += user.games.map(game => { 
+             return `<li>"${game.name}</li>` }).join("")
+        addUserGamesClick()
+    })   
+}
+
 function removeCreateForm() {
     let gameFormDiv = document.getElementById("games-form")
-    gameFormDiv.innerHTML = ''
+    if (gameFormDiv !== null) {
+        gameFormDiv.innerHTML = ''
+    } 
 }
 
 function removeAllGames(){
@@ -47,7 +60,9 @@ function removeAllGames(){
 
 function removeUserGames(){
     let gamesDiv = document.getElementById("all-games")
-    gamesDiv.innerHTML = ''
+    if (gamesDiv !== null) {
+        gamesDiv.innerHTML = ''
+        }
 }
 
 function removeInfo(){

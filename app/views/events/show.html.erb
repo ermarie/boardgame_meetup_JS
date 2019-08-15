@@ -23,6 +23,7 @@
     <% end %>
 <% else %>
     <div>
-        <%= button_to "Join Event", event_join_path(@event), method: "get" %>
+        <% cookies[:event_id] = @event.id %>
+        <%= button_to "Join Event", user_path(current_user), method: "put" %>
     </div>
 <% end %>

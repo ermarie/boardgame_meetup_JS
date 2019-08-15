@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   root to: "application#home"
 
-  resources :users, only: [:show] 
+  resources :users, only: [:show, :update] 
 
   resources :events 
 
