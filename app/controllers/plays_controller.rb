@@ -1,9 +1,7 @@
 class PlaysController < ApplicationController
 
   def show
-    # play = current_user.plays.find_by(game_id: params[:game_id])
-    binding.pry
-    play = current_user.games.find_by(game_id: params[:game_id]).plays
+    play = current_user.games.uniq.select {|game| game.id == params[:game_id].to_i}
     render json: play
   end
 

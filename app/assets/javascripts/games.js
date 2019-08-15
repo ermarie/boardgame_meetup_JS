@@ -69,12 +69,12 @@ function displayUserGame(e){
     .then(game => {
         for (let i = 0; i < game.plays.length; i++){
             if (game.plays[i].user_id == userID){
+                let play = game.plays[i]
                 let userGamesLink = document.getElementById(`${gameID}`)
-                userGamesLink.innerHTML += `<div class="info"><h5>Number of Plays: ${game.plays[i].num_plays}</h5><button data-play='${game.plays[i].id}' data-game='${gameID}' data-user='${userID}' onClick="addPlay()">Add Game Play</button></div>`
+                userGamesLink.innerHTML += `<div class="info"><h5>Number of Plays: ${play.num_plays}</h5><button onClick="addPlay(${gameID}, ${play.id}, ${play.num_plays})">Add Game Play</button></div>`
+                let stop
             }
-        }
-        
-    
+        }  
     })
     addPlaysClick()
 }
@@ -130,27 +130,26 @@ function createGame(){
     })
 }
 
-function addPlay(e){
-    e.preventDefault()
+function addPlay(gameID, playID, numPlays){
     removeCreateForm()
     removeInfo()
-    let playID = this.dataset.play
-    let gameID = this.dataset.game
+    numPlays++
 
     fetch(BASE_URL + `/games/${gameID}/plays/${playID}`, {
-        method: "POST",
-        body: JSON.stringify({ play }),
+        method: "PUT",
+        body: JSON.stringify({ num_plays:  numPlays }),
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         }
-    }).then(response => response.json())
-    .then(game => {
-        $(`#games${gameID}`).innerHTML = ''
-        gamesUl.innerHTML += gm.renderGame()
-        removeCreateForm()
-        removeInfo()
-    })
+    // }).then(response => response.json())
+    // .then(game => {
+    //     $(`#games${gameID}`).innerHTML = ''
+    //     gamesUl.innerHTML += gm.renderGame()
+    //     removeCreateForm()
+    //     removeInfo()
+     }).then(response => response.json()
+     ).then(play => console.log(play))
 }
 
 function addGamesClick(){
