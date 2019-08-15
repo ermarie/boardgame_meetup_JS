@@ -205,6 +205,24 @@ class Gm{
     }
 
     renderGame(){
+        if (this.min_play_time === null){
+            this.min_play_time = "*"
+        }
+        if (this.max_play_time === null){
+            this.max_play_time = "*"
+        }
+        if (this.min_num_players === null){
+            this.min_num_players = "*"
+        }
+        if (this.max_num_players === null){
+            this.max_num_players = "*"
+        }
+        if (this.min_age === null){
+            this.min_age = "*"
+        }
+        if (this.max_age === null){
+            this.max_age = "*"
+        }
         return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p>`
     }
 }
