@@ -137,7 +137,7 @@ function addPlay(gameID, playID, numPlays){
 
     fetch(BASE_URL + `/games/${gameID}/plays/${playID}`, {
         method: "PUT",
-        body: JSON.stringify({ num_plays:  numPlays }),
+        body: JSON.stringify({ num_plays: numPlays }),
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"

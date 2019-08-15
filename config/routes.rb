@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   
   resources :games do
     get :kid_friendly
-    resources :plays, only: [:show, :update]
+    resources :plays, only: [:show, :update, :game]
   end
 
 

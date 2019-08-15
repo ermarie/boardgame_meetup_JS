@@ -17,24 +17,36 @@
     <div>
         <%= button_to "See All Events", events_path, method: "get" %>
     </div>
-<% end %>
 </br>
 
-<h4>Your Games:</h4>
+    <h4>Your Games:</h4>
+    <% if @games.empty? %>
+        <p>No games. Buy more!</p>
+    <% else %>
+        <ul id="user-games">
+        <button onClick="getUserGames(<%= current_user.id%>)">View Your Games</button>
+        </ul>
+    <% end %>
 
-<% if @games.empty? %>
-    <p>You do not own any games.</p>
+    <button onClick="displayCreateForm()">Add New Game</button>
+    <button onClick="getGames()">See All Games</button>
+
+    <div id="games-form"></div>
+    <div id="all-games"><ul id='games-ul'></ul></div>
+
 <% else %>
-    <ul id="user-games">
-    <button onClick="getUserGames(<%= current_user.id%>)">View Your Games</button>
-    </ul>
+    <h4>User's Games:</h4>
+    <% if @games.empty? %>
+        <p>No games. Buy more!</p>
+    <% else %>
+        <ul id="user-games">
+        <button onClick="getOtherUserGames(<%= @user.id %>)">View User's Games</button>
+        </ul>
+    <% end %>
+    <button onClick="getGames()">See All Games</button>
+
+    <div id="all-games"><ul id='games-ul'></ul></div>
 <% end %>
-
-<button onClick="displayCreateForm()">Add New Game</button>
-<button onClick="getGames()">See All Games</button>
-
-<div id="games-form"></div>
-<div id="all-games"><ul id='games-ul'></ul></div>
 
 
 

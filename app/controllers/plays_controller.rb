@@ -16,4 +16,8 @@ class PlaysController < ApplicationController
     render json: play
   end
 
+  def destroy
+    binding.pry
+  end
+
 end

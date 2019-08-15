@@ -15,9 +15,11 @@
     <% end %>
     <h3>Available Games:</h3>
     <% @event.users.each do |user| %>
+        <ul>
         <% user.games.each do |game| %>
-            <div><%= link_to game.name, game_path(game) %></div>
+            <li><%= game.name %></li>
         <% end %>
+        </ul>
     <% end %>
 <% else %>
     <div>
