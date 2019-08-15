@@ -44,8 +44,8 @@
         </ul>
     <% end %>
     <ul id="games-ul">
-        <button onClick="getGames()">See All Games</button>
-    </ul>>
+        <button onClick='getGames(<%= @user.id %>, <%= current_user.id %>)'>See All Games</button>
+    </ul>
 <% end %>
 
 

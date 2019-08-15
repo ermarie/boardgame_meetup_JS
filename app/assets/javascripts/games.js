@@ -6,7 +6,7 @@ function displayCreateForm(user_id) {
     gameFormDiv.innerHTML = html
 }
 
-function getGames(){
+function getGames(otherUserID, userID){
     removeCreateForm()
     removeUserGames()
     removeInfo()
@@ -16,7 +16,7 @@ function getGames(){
     .then(games => {
         let gamesUl = document.getElementById("games-ul")
         gamesUl.innerHTML += games.map(game => { 
-            return `<li><a href="#" data-id="${game.id}">${game.name}</a><div id="${game.id}" class="info"></div></li>` }).join("")
+            return `<li><a href="#" data-id="${game.id}" data-other="${otherUserID}" data-user="${userID}">${game.name}</a><div id="${game.id}" class="info"></div></li>` }).join("")
         addGamesClick()
     })        
 }
@@ -99,13 +99,15 @@ function displayGame(e){
     removeCreateForm()
     removeInfo()
     let id = this.dataset.id
+    let otherUserID = this.dataset.other 
+    let userID = this.dataset.user
 
     fetch(BASE_URL + `/games/${id}`)
     .then(response => response.json())
     .then(game => {
         let gameLink = document.getElementById(`${id}`)
         let gm = new Gm(game)
-        gameLink.innerHTML += gm.renderGame()  
+        gameLink.innerHTML += gm.renderGame(otherUserID, userID)  
     })
 }
 
@@ -170,6 +172,10 @@ function addPlay(gameID, playID, numPlays){
      ).then(play => console.log(play))
 }
 
+function addGameToUser() {
+
+}
+
 function addGamesClick(){
     let games = document.querySelectorAll('li a')
     for (let i = 0; i < games.length; i++){
@@ -204,32 +210,37 @@ class Gm{
         this.max_age = game.max_age
     }
 
-    renderGame(){
-        for (let el in this){
-            if (el.value === undefined) {
-                el = "*"
-                let stop
-            }
+    renderGame(otherUserID === userID){
+        // for (let el in this){
+        //     if (el.value === undefined) {
+        //         el = "*"
+        //         let stop
+        //     }
+        // }
+        if (this.min_play_time === null){
+            this.min_play_time = "*"
         }
-        // if (this.min_play_time === null){
-        //     this.min_play_time = "*"
-        // }
-        // if (this.max_play_time === null){
-        //     this.max_play_time = "*"
-        // }
-        // if (this.min_num_players === null){
-        //     this.min_num_players = "*"
-        // }
-        // if (this.max_num_players === null){
-        //     this.max_num_players = "*"
-        // }
-        // if (this.min_age === null){
-        //     this.min_age = "*"
-        // }
-        // if (this.max_age === null){
-        //     this.max_age = "*"
-        // }
-        return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p>`
+        if (this.max_play_time === null){
+            this.max_play_time = "*"
+        }
+        if (this.min_num_players === null){
+            this.min_num_players = "*"
+        }
+        if (this.max_num_players === null){
+            this.max_num_players = "*"
+        }
+        if (this.min_age === null){
+            this.min_age = "*"
+        }
+        if (this.max_age === null){
+            this.max_age = "*"
+        }
+
+        if (otherUserID === userID) {
+            return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button data-gameid="${this.id}" data-userid="${userID}" onClick="addGameToUser()">I own this</button>`
+        } else {
+            return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p>`
+        }
     }
 }
 
