@@ -1,7 +1,8 @@
 class PlaysController < ApplicationController
 
   def create
-    binding.pry
+    play = Play.create(user_id: params[:play][:user_id], game_id: params[:play][:game_id])
+    render json: play
   end
 
   def show

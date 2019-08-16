@@ -30,7 +30,7 @@ function getUserGames(userID){
     .then(user => {
         let userGamesUl = document.getElementById("user-games")
         userGamesUl.innerHTML += user.games.map(game => { 
-             return `<li><a href="#" data-userid="${user.id}" data-gameid="${game.id}" class="user-games">${game.name}</a><div id="user--game${game.id}" class="info"></div></li>` }).join("")
+             return `<li><a href="#" data-userid="${user.id}" data-gameid="${game.id}" class="user-games">${game.name}</a><div id="user-game${game.id}" class="info"></div></li>` }).join("")
         addUserGamesClick()
     })   
 }
@@ -184,29 +184,25 @@ function addPlayCount(gameID, playID, numPlays){
 
 function addGameToUser(gameID, userID) {
     removeInfo()
+    const play = {
+        user_id: userID,
+        game_id: gameID
+    }
+    var token = Rails.csrfToken()
 
     fetch(BASE_URL + "/games/${gameID}/plays", {
         method: "POST",
-        body: JSON.stringify({ play }),
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
+            "Accept": "application/json",
+            "X-CSRF-TOKEN": token
+        }, 
+        body: JSON.stringify({ play })
     }).then(response => response.json())
     .then(play => {
-        if (game !== undefined) {
-            let gm = new Gm(game)
-            let gamesUl = document.querySelector("#all-games ul")
-            gamesUl.innerHTML += gm.renderGame()
-            removeCreateForm()
-            removeInfo()
-        } else {
-            let gameFormDiv = document.getElementById("games-form")
-            gameFormDiv.innerHTML += "Cannot create game: " 
-             game.errors.forEach(function(el) { 
-                gameFormDiv.innerHTML += `${el}. ` 
-            })
-        }
+        let userGames = document.querySelector("#user-games")
+        userGames.innerHTML += `<li><a href="#" data-userid="${userID}" data-gameid="${gameID}" class="user-games">${play.game.name}</a><div id="user-game${play.game.id}" class="info"></div></li>`
+        removeInfo()
     })
 }
 
@@ -248,7 +244,7 @@ class Gm{
         this.max_age = game.max_age
     }
 
-    renderGame(otherUserID, userID){
+    renderGame(otherUserID, userID, play){
         // for (let el in this){
         //     if (el.value === undefined) {
         //         el = "*"
@@ -277,7 +273,7 @@ class Gm{
         if (otherUserID === userID && play === undefined) {
             return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="addGameToUser(${this.id}, ${userID})">Add Game to Your Collection</button>`
         } else if (otherUserID === userID) {
-            return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="removeGameFromUser(${this.id}, ${userID})">Add Game to Your Collection</button>`
+            return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="removeGameFromUser(${this.id}, ${userID})">Remove Game from Your Collection</button>`
         } else {
             return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p>`
         }
