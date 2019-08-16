@@ -8,7 +8,6 @@ function displayCreateForm(user_id) {
 
 function getGames(userID, otherUserID){
     removeCreateForm()
-    removeUserGames()
     removeInfo()
 
     fetch(BASE_URL + "/games")
@@ -23,7 +22,8 @@ function getGames(userID, otherUserID){
 
 function getUserGames(userID){
     removeCreateForm()
-    removeAllGames()
+    let userGamesUl = document.getElementById("user-games")
+    userGamesUl.innerHTML = ''
 
     fetch(BASE_URL + `/users/${userID}.json`)
     .then(response => response.json())
@@ -36,7 +36,6 @@ function getUserGames(userID){
 }
 
 function getOtherUserGames(userID) {
-    removeAllGames()
 
     fetch(BASE_URL + `/users/${userID}.json`)
     .then(response => response.json())
@@ -55,30 +54,11 @@ function removeCreateForm() {
     } 
 }
 
-function removeAllGames(){
-    let userGamesDiv = document.getElementById("user-games")
-    userGamesDiv.innerHTML = ''
-}
-
-function removeUserGames(){
-    let gamesDiv = document.getElementById("games-ul")
-    if (gamesDiv !== null) {
-        gamesDiv.innerHTML = ''
-        }
-}
-
 function removeInfo(){
     let info = document.querySelectorAll('.info')
     for (let i = 0; i < info.length; i++){
         info[i].innerHTML = ""
     }
-}
-
-function removeButton() {
-    let otherGamesButton = document.getElementById("user-games-button")
-    if (otherGamesButton !== null) {
-        otherGamesButton.innerHTML = ''
-        }
 }
 
 function displayUserGame(e){
@@ -178,8 +158,7 @@ function addPlayCount(gameID, playID, numPlays){
     //     gamesUl.innerHTML += gm.renderGame()
     //     removeCreateForm()
     //     removeInfo()
-     }).then(response => response.json()
-     ).then(play => console.log(play))
+     })
 }
 
 function addGameToUser(gameID, userID) {
@@ -198,12 +177,14 @@ function addGameToUser(gameID, userID) {
             "X-CSRF-TOKEN": token
         }, 
         body: JSON.stringify({ play })
-    }).then(response => response.json())
-    .then(play => {
-        let userGames = document.querySelector("#user-games")
-        userGames.innerHTML += `<li><a href="#" data-userid="${userID}" data-gameid="${gameID}" class="user-games">${play.game.name}</a><div id="user-game${play.game.id}" class="info"></div></li>`
-        removeInfo()
-    })
+     })
+    // .then(response => response.json())
+    // .then(play => {
+    //     let userGames = document.querySelector("#user-games")
+    //     // userGames.innerHTML += `<li><a href="#" data-userid="${userID}" data-gameid="${gameID}" class="user-games">${play.game.name}</a><div id="user-game${play.game.id}" class="info"></div></li>`
+    // })
+    // removeInfo()
+    setTimeout(getUserGames(userID), 1000)
 }
 
 function removeGameFromUser(gameID, userID, playID) {
@@ -223,12 +204,9 @@ function removeGameFromUser(gameID, userID, playID) {
             "X-CSRF-TOKEN": token
         }, 
         body: JSON.stringify({ play })
-    }).then(response => response.json())
-    .then(play => {
-        let userGames = document.querySelector("#user-games")
-        userGames.innerHTML += `<li><a href="#" data-userid="${userID}" data-gameid="${gameID}" class="user-games">${play.game.name}</a><div id="user-game${play.game.id}" class="info"></div></li>`
-        removeInfo()
     })
+        removeInfo()
+        getUserGames(userID)
 }
 
 function addGamesClick(){
@@ -245,10 +223,10 @@ function addUserGamesClick(){
     }
 }
 
-function addPlayCountsClick(){
+function addPlayCountClick(){
     let userGames = document.querySelectorAll('.user-games')
     for (let i = 0; i < userGames.length; i++){
-        userGames[i].addEventListener('click', addPlay)
+        userGames[i].addEventListener('click', addPlayCount)
     }
 }
 

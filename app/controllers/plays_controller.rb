@@ -24,7 +24,6 @@ class PlaysController < ApplicationController
     game = Game.find(params[:play][:game_id])
     play = Play.find(params[:play][:id])
     play.destroy
-    binding.pry 
     render json: game
   end
 
