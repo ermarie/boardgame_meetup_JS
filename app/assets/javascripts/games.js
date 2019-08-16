@@ -152,12 +152,6 @@ function addPlayCount(gameID, playID, numPlays){
             "X-CSRF-TOKEN": token
         }, 
         credentials: "include"
-    // }).then(response => response.json())
-    // .then(game => {
-    //     $(`#games${gameID}`).innerHTML = ''
-    //     gamesUl.innerHTML += gm.renderGame()
-    //     removeCreateForm()
-    //     removeInfo()
      })
 }
 
@@ -178,12 +172,6 @@ function addGameToUser(gameID, userID) {
         }, 
         body: JSON.stringify({ play })
      })
-    // .then(response => response.json())
-    // .then(play => {
-    //     let userGames = document.querySelector("#user-games")
-    //     // userGames.innerHTML += `<li><a href="#" data-userid="${userID}" data-gameid="${gameID}" class="user-games">${play.game.name}</a><div id="user-game${play.game.id}" class="info"></div></li>`
-    // })
-    // removeInfo()
     setTimeout(getUserGames(userID), 1000)
 }
 
@@ -244,12 +232,7 @@ class Gm{
     }
 
     renderGame(otherUserID, userID, play){
-        // for (let el in this){
-        //     if (el.value === undefined) {
-        //         el = "*"
-        //         let stop
-        //     }
-        // }
+
         if (this.min_play_time === null){
             this.min_play_time = "*"
         }
