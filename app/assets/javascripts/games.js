@@ -274,7 +274,7 @@ class Gm{
             this.max_age = "*"
         }
 
-        if (otherUserID === userID && play ==== undefined) {
+        if (otherUserID === userID && play === undefined) {
             return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="addGameToUser(${this.id}, ${userID})">Add Game to Your Collection</button>`
         } else if (otherUserID === userID) {
             return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="removeGameFromUser(${this.id}, ${userID})">Add Game to Your Collection</button>`
