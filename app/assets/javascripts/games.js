@@ -6,7 +6,7 @@ function displayCreateForm(user_id) {
     gameFormDiv.innerHTML = html
 }
 
-function getGames(otherUserID, userID){
+function getGames(userID, otherUserID){
     removeCreateForm()
     removeUserGames()
     removeInfo()
@@ -36,12 +36,14 @@ function getUserGames(userID){
 }
 
 function getOtherUserGames(userID) {
+    removeAllGames()
+
     fetch(BASE_URL + `/users/${userID}.json`)
     .then(response => response.json())
     .then(user => {
         let userGamesUl = document.getElementById("user-games")
         userGamesUl.innerHTML += user.games.map(game => { 
-             return `<li>"${game.name}</li>` }).join("")
+             return `<li>${game.name}</li>` }).join("")
         addUserGamesClick()
     })   
 }
@@ -72,6 +74,13 @@ function removeInfo(){
     }
 }
 
+function removeButton() {
+    let otherGamesButton = document.getElementById("user-games-button")
+    if (otherGamesButton !== null) {
+        otherGamesButton.innerHTML = ''
+        }
+}
+
 function displayUserGame(e){
     e.preventDefault()
     removeCreateForm()
@@ -86,7 +95,7 @@ function displayUserGame(e){
             if (game.plays[i].user_id == userID){
                 let play = game.plays[i]
                 let userGamesLink = document.getElementById(`user-game${gameID}`)
-                userGamesLink.innerHTML += `<div class="info"><h5>Number of Plays: ${play.num_plays}</h5><button onClick="addPlay(${gameID}, ${play.id}, ${play.num_plays})">Add Game Play</button></div>`
+                userGamesLink.innerHTML += `<div class="info"><h5>Number of Plays: ${play.num_plays}</h5><button onClick="addPlayCount(${gameID}, ${play.id}, ${play.num_plays})">Add Game Play</button></div>`
                 let stop
             }
         }  
@@ -105,6 +114,7 @@ function displayGame(e){
     fetch(BASE_URL + `/games/${id}`)
     .then(response => response.json())
     .then(game => {
+        let play = game.plays.find(play => play.user_id == userID)
         let gameLink = document.getElementById(`${id}`)
         let gm = new Gm(game)
         gameLink.innerHTML += gm.renderGame(otherUserID, userID)  
@@ -147,7 +157,7 @@ function createGame(){
     })
 }
 
-function addPlay(gameID, playID, numPlays){
+function addPlayCount(gameID, playID, numPlays){
     removeCreateForm()
     removeInfo()
     numPlays++
@@ -172,8 +182,32 @@ function addPlay(gameID, playID, numPlays){
      ).then(play => console.log(play))
 }
 
-function addGameToUser() {
+function addGameToUser(gameID, userID) {
+    removeInfo()
 
+    fetch(BASE_URL + "/games/${gameID}/plays", {
+        method: "POST",
+        body: JSON.stringify({ play }),
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    }).then(response => response.json())
+    .then(play => {
+        if (game !== undefined) {
+            let gm = new Gm(game)
+            let gamesUl = document.querySelector("#all-games ul")
+            gamesUl.innerHTML += gm.renderGame()
+            removeCreateForm()
+            removeInfo()
+        } else {
+            let gameFormDiv = document.getElementById("games-form")
+            gameFormDiv.innerHTML += "Cannot create game: " 
+             game.errors.forEach(function(el) { 
+                gameFormDiv.innerHTML += `${el}. ` 
+            })
+        }
+    })
 }
 
 function addGamesClick(){
@@ -190,7 +224,7 @@ function addUserGamesClick(){
     }
 }
 
-function addPlaysClick(){
+function addPlayCountsClick(){
     let userGames = document.querySelectorAll('.user-games')
     for (let i = 0; i < userGames.length; i++){
         userGames[i].addEventListener('click', addPlay)
@@ -210,7 +244,7 @@ class Gm{
         this.max_age = game.max_age
     }
 
-    renderGame(otherUserID === userID){
+    renderGame(otherUserID, userID){
         // for (let el in this){
         //     if (el.value === undefined) {
         //         el = "*"
@@ -237,7 +271,7 @@ class Gm{
         }
 
         if (otherUserID === userID) {
-            return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button data-gameid="${this.id}" data-userid="${userID}" onClick="addGameToUser()">I own this</button>`
+            return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="addGameToUser(${this.id}, ${userID})">I own this</button>`
         } else {
             return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p>`
         }

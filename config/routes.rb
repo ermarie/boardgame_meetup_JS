@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   root to: "application#home"
 
-  resources :users, only: [:show, :update] 
+  resources :users, only: [:show, ] 
 
   resources :events 
 
@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   
   resources :games do
     get :kid_friendly
-    resources :plays, only: [:show, :update, :game]
+    resources :plays, only: [:create, :show, :update, :destroy]
   end
 
 
