@@ -21,7 +21,11 @@ class PlaysController < ApplicationController
   end
 
   def destroy
-    binding.pry
+    game = Game.find(params[:play][:game_id])
+    play = Play.find(params[:play][:id])
+    play.destroy
+    binding.pry 
+    render json: game
   end
 
 end

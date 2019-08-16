@@ -95,12 +95,12 @@ function displayUserGame(e){
             if (game.plays[i].user_id == userID){
                 let play = game.plays[i]
                 let userGamesLink = document.getElementById(`user-game${gameID}`)
-                userGamesLink.innerHTML += `<div class="info"><h5>Number of Plays: ${play.num_plays}</h5><button onClick="addPlayCount(${gameID}, ${play.id}, ${play.num_plays})">Add Game Play</button></div>`
+                userGamesLink.innerHTML += `<div class="info"><h5>Number of Plays: ${play.num_plays}</h5><button onClick="addPlayCount(${gameID}, ${play.id}, ${play.num_plays})">Add Game Play</button> <button onClick="removeGameFromUser(${gameID}, ${userID}, ${play.id})">Remove Game from Your Collection</button></div>`
                 let stop
             }
         }  
     })
-    addPlaysClick()
+    addPlayCountClick()
 }
 
 function displayGame(e){
@@ -206,8 +206,29 @@ function addGameToUser(gameID, userID) {
     })
 }
 
-function removeGameFromUser(gameID, userID) {
+function removeGameFromUser(gameID, userID, playID) {
+    removeInfo()
+    const play = {
+        user_id: userID,
+        game_id: gameID,
+        id: playID
+    }
+    var token = Rails.csrfToken()
 
+    fetch(BASE_URL + "/games/${gameID}/plays/${playID}", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "X-CSRF-TOKEN": token
+        }, 
+        body: JSON.stringify({ play })
+    }).then(response => response.json())
+    .then(play => {
+        let userGames = document.querySelector("#user-games")
+        userGames.innerHTML += `<li><a href="#" data-userid="${userID}" data-gameid="${gameID}" class="user-games">${play.game.name}</a><div id="user-game${play.game.id}" class="info"></div></li>`
+        removeInfo()
+    })
 }
 
 function addGamesClick(){
@@ -272,8 +293,6 @@ class Gm{
 
         if (otherUserID === userID && play === undefined) {
             return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="addGameToUser(${this.id}, ${userID})">Add Game to Your Collection</button>`
-        } else if (otherUserID === userID) {
-            return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="removeGameFromUser(${this.id}, ${userID})">Remove Game from Your Collection</button>`
         } else {
             return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p>`
         }
