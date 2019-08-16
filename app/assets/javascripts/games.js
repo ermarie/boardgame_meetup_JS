@@ -117,7 +117,7 @@ function displayGame(e){
         let play = game.plays.find(play => play.user_id == userID)
         let gameLink = document.getElementById(`${id}`)
         let gm = new Gm(game)
-        gameLink.innerHTML += gm.renderGame(otherUserID, userID)  
+        gameLink.innerHTML += gm.renderGame(otherUserID, userID, play)  
     })
 }
 
@@ -210,6 +210,10 @@ function addGameToUser(gameID, userID) {
     })
 }
 
+function removeGameFromUser(gameID, userID) {
+
+}
+
 function addGamesClick(){
     let games = document.querySelectorAll('li a')
     for (let i = 0; i < games.length; i++){
@@ -270,8 +274,10 @@ class Gm{
             this.max_age = "*"
         }
 
-        if (otherUserID === userID) {
-            return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="addGameToUser(${this.id}, ${userID})">I own this</button>`
+        if (otherUserID === userID && play ==== undefined) {
+            return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="addGameToUser(${this.id}, ${userID})">Add Game to Your Collection</button>`
+        } else if (otherUserID === userID) {
+            return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="removeGameFromUser(${this.id}, ${userID})">Add Game to Your Collection</button>`
         } else {
             return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p>`
         }
