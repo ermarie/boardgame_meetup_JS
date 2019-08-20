@@ -1,8 +1,8 @@
 const BASE_URL = "http://localhost:3000"
 
-function displayCreateForm(user_id) {
+function displayCreateForm(userID) {
     let gameFormDiv = document.getElementById("games-form")
-    let html = `<form onsubmit="createGame(); return false"><label>Name</label><input type="text" id="name"><br><label>Min play time</label><input placeholder="in minutes" type="text" id="min_play_time"><label>Max play time</label><input placeholder="in minutes" type="text" id="max_play_time"><br><label>Min # of players</label><input type="text" id="min_num_players"><label>Max # of players</label><input type="text" id="max_num_players"><br><label>Min age</label><input type="text" id="min_age"><label>Max age</label><input placeholder="enter 100 if no max" type="text" id="max_age"><input type="hidden" id="user_id" value=${user_id}><br><input type="submit" value="Create Game"></form>`
+    let html = `<form onsubmit="createGame(); return false"><label>Name</label><input type="text" id="name"><br><label>Min play time</label><input placeholder="in minutes" type="text" id="min_play_time"><label>Max play time</label><input placeholder="in minutes" type="text" id="max_play_time"><br><label>Min # of players</label><input type="text" id="min_num_players"><label>Max # of players</label><input type="text" id="max_num_players"><br><label>Min age</label><input type="text" id="min_age"><label>Max age</label><input placeholder="enter 100 if no max" type="text" id="max_age"><input type="hidden" id="userid" value=${userID}><br><input type="submit" value="Create Game"></form>`
     gameFormDiv.innerHTML = html
 }
 
@@ -97,7 +97,7 @@ function displayGame(e){
         let play = game.plays.find(play => play.user_id == userID)
         let gameLink = document.getElementById(`${id}`)
         let gm = new Gm(game)
-        gameLink.innerHTML += gm.renderGame(otherUserID, userID, play)  
+        gameLink.innerHTML += gm.renderGame(userID, otherUserID, play)  
     })
 }
 
@@ -111,6 +111,7 @@ function createGame(){
         min_age: document.getElementById("min_age").value,
         max_age: document.getElementById("max_age").value
     }
+    let userID = document.getElementById("userid").value
 
     fetch(BASE_URL + "/games", {
         method: "POST",
@@ -124,14 +125,14 @@ function createGame(){
         if (game !== undefined) {
             let gm = new Gm(game)
             let gamesUl = document.querySelector("#all-games ul")
-            gamesUl.innerHTML += gm.renderGame()
             removeCreateForm()
             removeInfo()
+            gamesUl.innerHTML += gm.renderGame(userID, userID)
         } else {
             let gameFormDiv = document.getElementById("games-form")
             gameFormDiv.innerHTML += "Cannot create game: " 
-             game.errors.forEach(function(el) { 
-                gameFormDiv.innerHTML += `${el}. ` 
+            game.errors.forEach(function(el) { 
+            gameFormDiv.innerHTML += `${el}. ` 
             })
         }
     })
@@ -231,7 +232,7 @@ class Gm{
         this.max_age = game.max_age
     }
 
-    renderGame(otherUserID, userID, play){
+    renderGame(userID, otherUserID, play){
 
         if (this.min_play_time === null){
             this.min_play_time = "*"
@@ -253,7 +254,7 @@ class Gm{
         }
 
         if (otherUserID === userID && play === undefined) {
-            return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="addGameToUser(${this.id}, ${userID})">Add Game to Your Collection</button>`
+            return `<div class="info"><h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p><button onClick="addGameToUser(${this.id}, ${userID})">Add Game to Your Collection</button></div>`
         } else {
             return `<h3>${this.name}</h3><p>Play Time: ${this.min_play_time} - ${this.max_play_time}</p><p>Number of Players: ${this.min_num_players} - ${this.max_num_players}</p><p>Ages: ${this.min_age} - ${this.max_age}</p>`
         }
