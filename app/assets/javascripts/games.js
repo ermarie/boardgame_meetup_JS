@@ -172,12 +172,17 @@ function addGameToUser(gameID, userID) {
             "X-CSRF-TOKEN": token
         }, 
         body: JSON.stringify({ play })
-     })
-    setTimeout(getUserGames(userID), 1000)
+     }).then(response => response.json())
+     .then(play => {
+        getUserGames(play.user_id)
+    })
 }
 
 function removeGameFromUser(gameID, userID, playID) {
     removeInfo()
+    let userGamesUl = document.getElementById("user-games")
+    userGamesUl.innerHTML = ''
+
     const play = {
         user_id: userID,
         game_id: gameID,
@@ -193,9 +198,10 @@ function removeGameFromUser(gameID, userID, playID) {
             "X-CSRF-TOKEN": token
         }, 
         body: JSON.stringify({ play })
-    })
-        removeInfo()
-        getUserGames(userID)
+    }).then(response => response.json())
+    .then(play => {
+       getUserGames(userID)
+   })
 }
 
 function addGamesClick(){

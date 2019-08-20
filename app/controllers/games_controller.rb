@@ -26,13 +26,13 @@ class GamesController < ApplicationController
   end
 
   def update
-    @game = Game.new(game_params)
-    @game.save
-    if @game.valid?
-      current_user.games << @game
-      redirect_to game_path(@game)
+    game = Game.find(params[:id])
+    game.update(game_params)
+    game.save
+    if game.valid?
+      redirect_to user_path(current_user)
     else
-      render :new
+      render :edit
     end
   end
 
