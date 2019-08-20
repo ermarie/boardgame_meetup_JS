@@ -75,7 +75,7 @@ function displayUserGame(e){
             if (game.plays[i].user_id == userID){
                 let play = game.plays[i]
                 let userGamesLink = document.getElementById(`user-game${gameID}`)
-                userGamesLink.innerHTML += `<div class="info"><h5>Number of Plays: ${play.num_plays}</h5><button onClick="addPlayCount(${gameID}, ${play.id}, ${play.num_plays})">Add Game Play</button> <button onClick="removeGameFromUser(${gameID}, ${userID}, ${play.id})">Remove Game from Your Collection</button></div>`
+                userGamesLink.innerHTML += `<div class="info"><h5>Number of Plays: ${play.num_plays}</h5><button onClick="addPlayCount(${gameID}, ${play.id}, ${play.num_plays})">Add Game Play</button> <button onclick="window.location.href = '/games/${gameID}/edit' ">Edit Game</button> <button onClick="removeGameFromUser(${gameID}, ${userID}, ${play.id})">Remove Game from Your Collection</button></div>`
                 let stop
             }
         }  
