@@ -12,9 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2019_07_22_193503) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.datetime "date_time"
@@ -24,8 +21,8 @@ ActiveRecord::Schema.define(version: 2019_07_22_193503) do
   end
 
   create_table "events_users", id: false, force: :cascade do |t|
-    t.bigint "event_id", null: false
-    t.bigint "user_id", null: false
+    t.integer "event_id", null: false
+    t.integer "user_id", null: false
   end
 
   create_table "games", force: :cascade do |t|
@@ -41,8 +38,8 @@ ActiveRecord::Schema.define(version: 2019_07_22_193503) do
   end
 
   create_table "plays", force: :cascade do |t|
-    t.bigint "game_id"
-    t.bigint "user_id"
+    t.integer "game_id"
+    t.integer "user_id"
     t.integer "num_plays", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -50,26 +47,7 @@ ActiveRecord::Schema.define(version: 2019_07_22_193503) do
     t.index ["user_id"], name: "index_plays_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "name", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "provider"
-    t.string "uid"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
+# Could not dump table "users" because of following StandardError
+#   Unknown type 'reference' for column 'group_id'
 
-  add_foreign_key "plays", "games"
-  add_foreign_key "plays", "users"
 end
