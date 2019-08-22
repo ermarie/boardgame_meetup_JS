@@ -1,16 +1,16 @@
 # README
 
-# Board Game Meet Up
+# Board Game Meet Up JS
 
-The following Ruby program uses Ruby on Rails to build a board game meet up app. A user must sign up to create an account with the option to sign in using Github. Once signed in, the user can create or join events; they may add games to their games collection; and they can keep track of game plays for each game. Once a user joins an event, they can view who is attending that event as well as all the games owned by people attending the event. This is meant to help users to be able to request games to be played at a board game event they attend.
+The following Ruby program uses Ruby on Rails to build a board game meet up app and Javascript to display dynamically on the page. A user must sign up to create an account with the option to sign in using Github. Once signed in, the user can create or join events; they may add games to their games collection; and they can keep track of game plays for each game. Once a user joins an event, they can view who is attending that event as well as all the games owned by people attending the event. This is meant to help users to be able to request games to be played at a board game event they attend.
 
 # Usage
 
-In the terminal, change directory into boardgame_meetup. To run this program, first run "bundle install", then "rails db:migrate". If you would like to have data preloaded to the app, run "rails db:seed".  Start the server by entering "rails s" into the terminal, then navigate to the webpage using http://localhost:3000
+In the terminal, change directory into boardgame_meetup_JS. To run this program, first run "bundle install", then "rails db:migrate". If you would like to have data preloaded to the app, run "rails db:seed".  Start the server by entering "rails s" into the terminal, then navigate to the webpage using http://localhost:3000
 
 # Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/ermarie/boardgame_meetup
+Bug reports and pull requests are welcome on GitHub at https://github.com/ermarie/boardgame_meetup_JS
 
 # The MIT License (MIT)
 
