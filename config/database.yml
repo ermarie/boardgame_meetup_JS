@@ -9,9 +9,9 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: demo_test_development
+  database: my_databse_development
   pool: 5
-  username: ermarie
+  username: postgres
   password:
   timeout: 5000
 
@@ -21,9 +21,9 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: test
+  database: my_database_test
   pool: 5
-  username: ermarie
+  username: postgres
   password:
   timeout: 5000
 

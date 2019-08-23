@@ -16,10 +16,5 @@ class User < ApplicationRecord
     end
   end
 
-  private
-
-  # def to_param
-  #   name
-  # end
 
 end
