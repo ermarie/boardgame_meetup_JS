@@ -9,7 +9,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: my_databse_development
+  database: my_database_development
   pool: 5
   username: postgres
   password:
