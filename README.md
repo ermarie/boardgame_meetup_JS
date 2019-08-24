@@ -1,4 +1,3 @@
-# README
 # Board Game Meetup App
 
 # See It in Action!
@@ -11,11 +10,12 @@ The following Ruby program uses Ruby on Rails to build a board game meet up app.
 
 # Usage
 
+To run it locally:
 In the terminal, change directory into boardgame_meetup. To run this program, first run "bundle install", then "rails db:migrate". If you would like to have data preloaded to the app, run "rails db:seed".  Start the server by entering "rails s" into the terminal, then navigate to the webpage using http://localhost:3000
 
 # Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/ermarie/boardgame_meetup
+Bug reports and pull requests are welcome on GitHub at https://github.com/ermarie/boardgame_meetup_js
 
 # The MIT License (MIT)
 
