@@ -6,7 +6,7 @@ https://boardgame-meetup-js.herokuapp.com/
 
 # Summary
 
-The following Ruby program uses Ruby on Rails to build a board game meet up app. A user must sign up to create an account with the option to sign in using Github. Once signed in, the user can create or join events; they may add games to their games collection; and they can keep track of game plays for each game. Once a user joins an event, they can view who is attending that event as well as all the games owned by people attending the event. This is meant to help users to be able to request games to be played at a board game event they attend.
+The following Ruby program uses Ruby on Rails to build a board game meet up app, and Javascript to display the content dynamically on a page. A user must sign up to create an account with the option to sign in using Github. Once signed in, the user can create or join events; they may add games to their games collection; and they can keep track of game plays for each game. Once a user joins an event, they can view who is attending that event as well as all the games owned by people attending the event. This is meant to help users to be able to request games to be played at a board game event they attend.
 
 # Usage
 
