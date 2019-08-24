@@ -25,7 +25,9 @@ event1.users << user1 << user2 << user4 << user5
 event2.users << user2 << user3 << user5 << user6
 event3.users << user1 << user2 << user3 << user4
 event4.users << user3 << user4 << user5 << user6
-event5.users 
+event5.users << user2 << user3 << user5 << user6
+event6.users << user3 << user4 << user5 << user6
+event7.users << user1 << user2 << user4 << user5
 
 game1 = Game.create(name: "Settlers of Catan", min_play_time: 60, max_play_time: 60, min_num_players: 2, max_num_players: 4, min_age:10, max_age: 10)
 game2 = Game.create(name: "Pandemic", min_play_time: 45, max_play_time: 45, min_num_players: 2, max_num_players: 4, min_age: 8, max_age: 10)
