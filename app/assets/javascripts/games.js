@@ -10,7 +10,7 @@ function getGames(userID, otherUserID){
     removeCreateForm()
     removeInfo()
 
-    fetch(BASE_URL + "/games")
+    fetch("/games")
     .then(response => response.json())
     .then(games => {
         let gamesUl = document.getElementById("games-ul")
