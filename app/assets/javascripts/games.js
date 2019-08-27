@@ -1,5 +1,3 @@
-const BASE_URL = "https://boardgame-meetup-js.herokuapp.com"
-
 function displayCreateForm(userID) {
     let gameFormDiv = document.getElementById("games-form")
     let html = `<form onsubmit="createGame(); return false"><label>Name</label><input type="text" id="name"><br><label>Min play time</label><input placeholder="in minutes" type="text" id="min_play_time"><label>Max play time</label><input placeholder="in minutes" type="text" id="max_play_time"><br><label>Min # of players</label><input type="text" id="min_num_players"><label>Max # of players</label><input type="text" id="max_num_players"><br><label>Min age</label><input type="text" id="min_age"><label>Max age</label><input placeholder="enter 100 if no max" type="text" id="max_age"><input type="hidden" id="userid" value=${userID}><br><input type="submit" value="Create Game"></form>`
@@ -25,7 +23,7 @@ function getUserGames(userID){
     let userGamesUl = document.getElementById("user-games")
     userGamesUl.innerHTML = ''
 
-    fetch(BASE_URL + `/users/${userID}.json`)
+    fetch(`/users/${userID}.json`)
     .then(response => response.json())
     .then(user => {
         let userGamesUl = document.getElementById("user-games")
@@ -37,7 +35,7 @@ function getUserGames(userID){
 
 function getOtherUserGames(userID) {
 
-    fetch(BASE_URL + `/users/${userID}.json`)
+    fetch(`/users/${userID}.json`)
     .then(response => response.json())
     .then(user => {
         let userGamesUl = document.getElementById("user-games")
@@ -68,7 +66,7 @@ function displayUserGame(e){
     let gameID = this.dataset.gameid
     let userID = this.dataset.userid
 
-    fetch(BASE_URL + `/games/${gameID}`)
+    fetch(`/games/${gameID}`)
     .then(response => response.json())
     .then(game => {
         for (let i = 0; i < game.plays.length; i++){
@@ -91,7 +89,7 @@ function displayGame(e){
     let otherUserID = this.dataset.other 
     let userID = this.dataset.user
 
-    fetch(BASE_URL + `/games/${id}`)
+    fetch(`/games/${id}`)
     .then(response => response.json())
     .then(game => {
         let play = game.plays.find(play => play.user_id == userID)
@@ -113,7 +111,7 @@ function createGame(){
     }
     let userID = document.getElementById("userid").value
 
-    fetch(BASE_URL + "/games", {
+    fetch("/games", {
         method: "POST",
         body: JSON.stringify({ game }),
         headers: {
@@ -144,7 +142,7 @@ function addPlayCount(gameID, playID, numPlays){
     numPlays++
     var token = Rails.csrfToken()
 
-    fetch(BASE_URL + `/games/${gameID}/plays/${playID}`, {
+    fetch(`/games/${gameID}/plays/${playID}`, {
         method: "PATCH",
         body: JSON.stringify({ num_plays: numPlays }),
         headers: {
@@ -164,7 +162,7 @@ function addGameToUser(gameID, userID) {
     }
     var token = Rails.csrfToken()
 
-    fetch(BASE_URL + "/games/${gameID}/plays", {
+    fetch("/games/${gameID}/plays", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -190,7 +188,7 @@ function removeGameFromUser(gameID, userID, playID) {
     }
     var token = Rails.csrfToken()
 
-    fetch(BASE_URL + "/games/${gameID}/plays/${playID}", {
+    fetch("/games/${gameID}/plays/${playID}", {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
