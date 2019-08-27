@@ -30,6 +30,7 @@
 
     <button onClick="displayCreateForm(<%= current_user.id %>)">Add New Game</button>
     <button onClick="getGames(<%= current_user.id %>, <%= @user.id %>)">See All Games</button>
+    <button onClick="getGamesAlphabet(<%= current_user.id %>, <%= @user.id %>)">See Games Alphabetically</button>
 
     <div id="games-form"></div>
     <div id="all-games"><ul id='games-ul'></ul></div>

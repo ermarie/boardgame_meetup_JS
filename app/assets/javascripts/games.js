@@ -20,6 +20,24 @@ function getGames(userID, otherUserID){
     })        
 }
 
+function getGamesAlphabet(userID, otherUserID){
+    removeCreateForm()
+    removeInfo()
+
+    fetch(BASE_URL + "/games")
+    .then(response => response.json())
+    .then(games => {
+
+        let gamesAlpha = games.sort(function (a, b) {
+            return a.name.localeCompare(b.name);
+          })
+        let gamesUl = document.getElementById("games-ul")
+        gamesUl.innerHTML += gamesAlpha.map(game => { 
+            return `<li><a href="#" data-id="${game.id}" data-other="${otherUserID}" data-user="${userID}">${game.name}</a><div id="${game.id}" class="info"></div></li>` }).join("")
+        addGamesClick()
+    })        
+}
+
 function getUserGames(userID){
     removeCreateForm()
     let userGamesUl = document.getElementById("user-games")
